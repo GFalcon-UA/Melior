@@ -1,0 +1,39 @@
+{
+  "name": "melior",
+  "version": "1.0.0",
+  "description": "meliors test-task",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mongodb": "^2.2.26",
+    "node-cache": "~4.1.1"
+  },
+  "devDependencies": {
+    "karma": "~1.7.1",
+    "karma-jasmine": "~1.1.0",
+    "karma-ng-scenario": "~1.0.0",
+    "karma-html2js-preprocessor":"~1.1.0",
+    "karma-ng-html2js-preprocessor":"~1.0.0",
+    "karma-script-launcher":"~1.0.0",
+    "karma-firefox-launcher":"~1.0.1",
+    "karma-chrome-launcher":"~2.2.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GFalcon-UA/melior.git"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "author": "Oleksii Khalikov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GFalcon-UA/melior/issues"
+  },
+  "homepage": "https://github.com/GFalcon-UA/melior#readme"
+}

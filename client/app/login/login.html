@@ -1,0 +1,12 @@
+<form ng-submit="vm.login()">
+    <input type="text"
+           ng-model="vm.oUser.sLogin"
+           placeholder="Login"><br>
+    <input type="password"
+           ng-model="vm.oUser.sPassword"
+           placeholder="Password"><br>
+    <button type="submit">Submit</button><br>
+    <div ng-if="vm.bLoginError">
+        Incorrect Login or Password
+    </div>
+</form>

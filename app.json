@@ -1,0 +1,21 @@
+{
+  "name": "Melior",
+  "description": "Meliors test-task",
+  "keywords": [
+    "MEAN",
+    "Angular",
+    "Node",
+    "MongoDB"
+  ],
+  "repository": "https://github.com/GFalcon-UA/melior.git",
+  "success_url": "/",
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "addons": [
+    "mongolab"
+  ]
+}
