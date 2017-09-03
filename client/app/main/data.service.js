@@ -6,6 +6,7 @@
     this.findAll = findAll;
     this.save = save;
     this.sortedObjectsArrayByField = sortedObjectsArrayByField;
+    this.updateItem = updateItem;
     this.remove = remove;
 
     function save(obj){
@@ -36,9 +37,17 @@
       });
     }
 
-    function remove(aArray) {
+    function updateItem(obj) {
+      console.log(angular.toJson(obj));
+      return $http.put('api/update/' + obj['_id'], obj).then(function (res) {
+        return res.data;
+      })
+    }
+
+    function remove(array) {
+      if(!angular.isArray(array) || array.length === 0) return;
       var aRemoveList = [];
-      aArray.filter(function (oItem) {
+      array.filter(function (oItem) {
         return oItem.bRemove;
       }).forEach(function (oItem) {
         aRemoveList.push(oItem._id);
@@ -50,7 +59,7 @@
       };
       if(aRemoveList.length > 0){
         return $http.delete('/api/delete-by-list', {params: params}).then(function (res) {
-          return aArray.filter(function (oItem) {
+          return array.filter(function (oItem) {
             return !oItem.bRemove;
           })
         })

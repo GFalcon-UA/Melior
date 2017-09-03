@@ -4,11 +4,23 @@
 
 <div>
     <form ng-submit="vm.save(vm.oEmployee)">
-        <input type="text" placeholder="First name" ng-model="vm.oEmployee.sFirstName" required>
-        <input type="text" placeholder="Last name" ng-model="vm.oEmployee.sLastName" required>
-        <input type="text" placeholder="Position" ng-model="vm.oEmployee.sPosition" required>
+        <input type="text"
+               placeholder="First name"
+               ng-model="vm.oEmployee.sFirstName"
+               ng-change="vm.startWatcher(vm.oEmployee)"
+               required>
+        <input type="text"
+               placeholder="Last name"
+               ng-model="vm.oEmployee.sLastName"
+               ng-change="vm.startWatcher(vm.oEmployee)"
+               required>
+        <input type="text"
+               placeholder="Position"
+               ng-model="vm.oEmployee.sPosition"
+               ng-change="vm.startWatcher(vm.oEmployee)"
+               required>
         <br>
-        <button type="submit">Save</button>
+        <button type="submit">{{vm.oEmployee['_id'] ? 'Updade' : 'Save'}}</button>
     </form>
 </div>
 <button ng-click="vm.setFilter(vm.oEmployee)">Filter</button>
