@@ -17,9 +17,24 @@
     <thead>
     <tr>
         <th></th>
-        <th>First name1</th>
-        <th>Last name1</th>
-        <th>Position1</th>
+        <th ng-click="vm.sort('sFirstName')">First name1
+            <span ng-if="vm.oSorting.sByField === 'sFirstName'">
+                <span ng-show="vm.oSorting.bDescending['sFirstName']">&#9660;</span>
+                <span ng-show="!vm.oSorting.bDescending['sFirstName']">&#9650;</span>
+            </span>
+        </th>
+        <th ng-click="vm.sort('sLastName')">Last name1
+            <span ng-if="vm.oSorting.sByField === 'sLastName'">
+                <span ng-show="vm.oSorting.bDescending['sLastName']">&#9660;</span>
+                <span ng-show="!vm.oSorting.bDescending['sLastName']">&#9650;</span>
+            </span>
+        </th>
+        <th ng-click="vm.sort('sPosition')">Position1
+            <span ng-if="vm.oSorting.sByField === 'sPosition'">
+                <span ng-show="vm.oSorting.bDescending['sPosition']">&#9660;</span>
+                <span ng-show="!vm.oSorting.bDescending['sPosition']">&#9650;</span>
+            </span>
+        </th>
     </tr>
     </thead>
     <tbody>
