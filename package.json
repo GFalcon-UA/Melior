@@ -4,12 +4,14 @@
   "description": "meliors test-task",
   "main": "index.js",
   "dependencies": {
+    "async": "~2.5.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "mongodb": "^2.2.26",
     "node-cache": "~4.1.1"
   },
   "devDependencies": {
+    "jasmine-core": "~2.8.0",
     "karma": "~1.7.1",
     "karma-jasmine": "~1.1.0",
     "karma-ng-scenario": "~1.0.0",

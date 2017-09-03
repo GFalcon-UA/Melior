@@ -5,10 +5,10 @@
     .module('auth')
     .factory('$userProvider', function () {
 
-      var setUser = function (u) {
-        if (u.bAuthenticated) {
+      var setUser = function (oUser) {
+        if (oUser && oUser.bAuthenticated) {
           this.user = {
-            sLogin: u.login
+            sLogin: oUser.login
           };
         } else {
           this.user = {};

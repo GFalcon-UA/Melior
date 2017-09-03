@@ -37,6 +37,8 @@
           sHomePath: '/',
           sPath: $location.path(),
 
+          getUser: $userProvider.getUser,
+
           authenticate: function (credentials, callback) {
 
             var headers = credentials && credentials.sLogin ? {

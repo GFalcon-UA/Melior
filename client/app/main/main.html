@@ -1,19 +1,17 @@
 <div>
-    <span>You entered as: </span>
     <button ng-click="vm.logout()">Logout</button><br>
 </div>
 
-
 <div>
-    <form ng-submit="vm.save(vm.oEdited)">
-        <input type="text" placeholder="First name" ng-model="vm.oEdited.sFirstName" ng-required="true">
-        <input type="text" placeholder="Last name" ng-model="vm.oEdited.sLastName" ng-required="true">
-        <input type="text" placeholder="Position" ng-model="vm.oEdited.sPosition" ng-required="true">
+    <form ng-submit="vm.save(vm.oEmployee)">
+        <input type="text" placeholder="First name" ng-model="vm.oEmployee.sFirstName" required>
+        <input type="text" placeholder="Last name" ng-model="vm.oEmployee.sLastName" required>
+        <input type="text" placeholder="Position" ng-model="vm.oEmployee.sPosition" required>
         <br>
         <button type="submit">Save</button>
     </form>
 </div>
-<button ng-click="vm.setFilter(vm.oEdited)">Filter</button>
+<button ng-click="vm.setFilter(vm.oEmployee)">Filter</button>
 
 <table>
     <thead>
@@ -26,10 +24,10 @@
     </thead>
     <tbody>
     <tr ng-repeat="oItem in vm.aList" ng-if="vm.aList.length > 0">
-        <td></td>
-        <td>{{oItem.sFirstName}}</td>
-        <td>{{oItem.sLastName}}</td>
-        <td>{{oItem.sPosition}}</td>
+        <td><input type="checkbox" ng-checked="oItem.bRemove" ng-model="oItem.bRemove"></td>
+        <td ng-click="vm.select(oItem)">{{oItem.sFirstName}}</td>
+        <td ng-click="vm.select(oItem)">{{oItem.sLastName}}</td>
+        <td ng-click="vm.select(oItem)">{{oItem.sPosition}}</td>
     </tr>
     <tr ng-if="vm.aList.length == 0">
         <td colspan="4">
@@ -38,3 +36,4 @@
     </tr>
     </tbody>
 </table>
+<button ng-click="vm.remove(vm.oEmployee)">Delete</button>

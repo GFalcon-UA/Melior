@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  var async = require('async');
   var mongodb = require("mongodb");
   var handleError = require('./../error/errorHandler').handleError;
   var ObjectID = mongodb.ObjectID;
@@ -39,7 +40,7 @@
 
   module.exports.createNew = function(req, res) {
     var newContact = req.body;
-    newContact.createDate = new Date();
+    newContact.sCreateDate = new Date();
 
     db.collection(OBJECTS_COLLECTION).insertOne(newContact, function(err, doc) {
       if (err) {
@@ -80,6 +81,44 @@
         handleError(res, err.message, "Failed to delete object");
       } else {
         res.status(200).json(req.params.id);
+      }
+    });
+  };
+
+  module.exports.deleteMany = function(req, res) {
+    var aIdsForDelete = [];
+    var existingArray;
+    try {
+      existingArray = JSON.parse(req.query.lds);
+    } catch (e) {
+      existingArray.array = [];
+    }
+    existingArray.array.forEach(function (item) {
+      aIdsForDelete.push({_id: new ObjectID(item)})
+    });
+
+    var aDeleteResults = [];
+    function deleteOne(oItem, callback) {
+      db.collection(OBJECTS_COLLECTION).deleteOne(oItem, function(err, result) {
+        if (err) {
+          handleError(res, err.message, "Failed to delete object");
+        } else {
+          aDeleteResults.push({
+            oItem: oItem,
+            oResult: result
+          });
+        }
+        callback();
+      });
+    }
+
+    async.forEach(aIdsForDelete, function (oItem, callback) {
+      deleteOne(oItem, callback);
+    }, function (err) {
+      if (err) {
+        handleError(res, err.message, "Failed to delete list of objects");
+      } else {
+        res.status(200).send(aDeleteResults);
       }
     });
   };
