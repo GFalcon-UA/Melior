@@ -1,69 +1,80 @@
-<div>
-    <button ng-click="vm.logout()">Logout</button><br>
+<div class="nav-footer row">
+    <button class="btn btn-default col-md-2" ng-click="vm.logout()">Logout</button><br>
 </div>
 
-<div>
-    <form ng-submit="vm.save(vm.oEmployee)">
-        <input type="text"
-               placeholder="First name"
-               ng-model="vm.oEmployee.sFirstName"
-               ng-change="vm.startWatcher(vm.oEmployee)"
-               required>
-        <input type="text"
-               placeholder="Last name"
-               ng-model="vm.oEmployee.sLastName"
-               ng-change="vm.startWatcher(vm.oEmployee)"
-               required>
-        <input type="text"
-               placeholder="Position"
-               ng-model="vm.oEmployee.sPosition"
-               ng-change="vm.startWatcher(vm.oEmployee)"
-               required>
-        <br>
-        <button type="submit">{{vm.oEmployee['_id'] ? 'Updade' : 'Save'}}</button>
+<div class="save-form">
+    <form ng-submit="vm.save(vm.oEmployee)" class="container form-inline">
+        <div class="row">
+            <input type="text"
+                   placeholder="First name"
+                   ng-model="vm.oEmployee.sFirstName"
+                   ng-change="vm.startWatcher(vm.oEmployee)"
+                   class="form-control-static col-md-4"
+                   required>
+            <input type="text"
+                   placeholder="Last name"
+                   ng-model="vm.oEmployee.sLastName"
+                   ng-change="vm.startWatcher(vm.oEmployee)"
+                   class="form-control-static col-md-4"
+                   required>
+            <input type="text"
+                   placeholder="Position"
+                   ng-model="vm.oEmployee.sPosition"
+                   ng-change="vm.startWatcher(vm.oEmployee)"
+                   class="form-control-static col-md-4"
+                   required>
+            <br>
+        </div>
+        <button type="submit" class="btn btn-success snap-to-right col-md-3">{{vm.oEmployee['_id'] ? 'Updade' : 'Save'}}</button>
     </form>
 </div>
 
-<div>
-    <input type="text" placeholder="Filter" ng-model="vm.oFilter.sValue" ng-change="vm.startFilterListener()">
+<div class="container">
+    <input class="form-control col-md-4 filter-panel max-width-30" type="text" placeholder="Filter" ng-model="vm.oFilter.sValue" ng-change="vm.startFilterListener()">
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="max-width-10"></th>
+            <th ng-click="vm.sort('sFirstName')" class="pointer text-center">
+                <span>First name
+                    <span ng-if="vm.oSorting.sByField === 'sFirstName'" class="snap-to-left">
+                    <span ng-show="vm.oSorting.bDescending['sFirstName']">&#9660;</span>
+                    <span ng-show="!vm.oSorting.bDescending['sFirstName']">&#9650;</span>
+                </span>
+            </span>
+            </th>
+            <th ng-click="vm.sort('sLastName')" class="pointer text-center">
+                <span>Last name
+                    <span ng-if="vm.oSorting.sByField === 'sLastName'" class="snap-to-left">
+                    <span ng-show="vm.oSorting.bDescending['sLastName']">&#9660;</span>
+                    <span ng-show="!vm.oSorting.bDescending['sLastName']">&#9650;</span>
+                </span>
+            </span>
+            </th>
+            <th ng-click="vm.sort('sPosition')" class="pointer text-center">
+                <span>Position
+                <span ng-if="vm.oSorting.sByField === 'sPosition'" class="snap-to-left">
+                <span ng-show="vm.oSorting.bDescending['sPosition']">&#9660;</span>
+                <span ng-show="!vm.oSorting.bDescending['sPosition']">&#9650;</span></span>
+            </span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="oItem in vm.aList" ng-if="vm.aList.length > 0">
+            <td class="max-width-10"><input type="checkbox" ng-checked="oItem.bRemove" ng-model="oItem.bRemove"></td>
+            <td ng-click="vm.select(oItem)" class="pointer max-width-30">{{oItem.sFirstName}}</td>
+            <td ng-click="vm.select(oItem)" class="pointer max-width-30">{{oItem.sLastName}}</td>
+            <td ng-click="vm.select(oItem)" class="pointer max-width-30">{{oItem.sPosition}}</td>
+        </tr>
+        <tr ng-if="vm.aList.length == 0">
+            <td class="row text-center text-info" colspan="4">
+                The table is empty
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button class="btn bg-danger col-md-3 col-md-offset-1" ng-click="vm.remove(vm.oEmployee)">Delete</button>
 </div>
 
-<table>
-    <thead>
-    <tr>
-        <th></th>
-        <th ng-click="vm.sort('sFirstName')">First name1
-            <span ng-if="vm.oSorting.sByField === 'sFirstName'">
-                <span ng-show="vm.oSorting.bDescending['sFirstName']">&#9660;</span>
-                <span ng-show="!vm.oSorting.bDescending['sFirstName']">&#9650;</span>
-            </span>
-        </th>
-        <th ng-click="vm.sort('sLastName')">Last name1
-            <span ng-if="vm.oSorting.sByField === 'sLastName'">
-                <span ng-show="vm.oSorting.bDescending['sLastName']">&#9660;</span>
-                <span ng-show="!vm.oSorting.bDescending['sLastName']">&#9650;</span>
-            </span>
-        </th>
-        <th ng-click="vm.sort('sPosition')">Position1
-            <span ng-if="vm.oSorting.sByField === 'sPosition'">
-                <span ng-show="vm.oSorting.bDescending['sPosition']">&#9660;</span>
-                <span ng-show="!vm.oSorting.bDescending['sPosition']">&#9650;</span>
-            </span>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="oItem in vm.aList" ng-if="vm.aList.length > 0">
-        <td><input type="checkbox" ng-checked="oItem.bRemove" ng-model="oItem.bRemove"></td>
-        <td ng-click="vm.select(oItem)">{{oItem.sFirstName}}</td>
-        <td ng-click="vm.select(oItem)">{{oItem.sLastName}}</td>
-        <td ng-click="vm.select(oItem)">{{oItem.sPosition}}</td>
-    </tr>
-    <tr ng-if="vm.aList.length == 0">
-        <td colspan="4">
-            The table is empty
-        </td>
-    </tr>
-    </tbody>
-</table>
-<button ng-click="vm.remove(vm.oEmployee)">Delete</button>
+

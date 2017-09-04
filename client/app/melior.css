@@ -12,6 +12,46 @@
     padding-bottom: 6px;
 }
 
-.login-button{
+.snap-to-right{
     float: right;
 }
+
+.snap-to-left{
+    float: left;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.max-width-30{
+    max-width: 30%;
+}
+
+.max-width-10{
+    max-width: 10%;
+}
+
+.filter-panel {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.save-form {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.footer {
+    margin: 15px;
+    background-color: #888888;
+}
+
+button{
+    margin: 2px;
+}
+
+input{
+    padding: 5px;
+}
+
