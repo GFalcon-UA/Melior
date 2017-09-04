@@ -1,14 +1,18 @@
-<form ng-submit="vm.login()">
-    <input type="text"
-           ng-model="vm.oUser.sLogin"
-           required
-           placeholder="Login"><br>
-    <input type="password"
-           ng-model="vm.oUser.sPassword"
-           required
-           placeholder="Password"><br>
-    <button type="submit">Submit</button><br>
-    <div ng-if="vm.bLoginError">
-        Incorrect Login or Password
-    </div>
-</form>
+<div class="container">
+    <form class="form-horizontal loggin-form" ng-submit="vm.login()">
+        <input type="text"
+               ng-model="vm.oUser.sLogin"
+               required
+               class="form-control"
+               placeholder="Login"><br>
+        <input type="password"
+               ng-model="vm.oUser.sPassword"
+               required
+               class="form-control"
+               placeholder="Password"><br>
+        <button class="btn btn-info right" type="submit">Submit</button><br>
+        <div class="label label-danger" ng-if="vm.bLoginError">
+            Incorrect Login or Password
+        </div>
+    </form>
+</div>
