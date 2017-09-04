@@ -55,7 +55,9 @@
                 auth.bAuthenticated = false;
               }
               callback && callback(auth.bAuthenticated);
-              $location.path(auth.sPath === auth.sLoginPath ? auth.sHomePath : auth.sPath);
+              if (response.status == 200){
+                $location.path(auth.sPath === auth.sLoginPath ? auth.sHomePath : auth.sPath);
+              }
             }, function (err) {
               auth.bAuthenticated = false;
               callback && callback(false);

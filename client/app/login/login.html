@@ -1,5 +1,5 @@
-<div class="container">
-    <form class="form-horizontal loggin-form" ng-submit="vm.login()">
+<div class="rowr">
+    <form class="form-horizontal col-md-6 col-md-offset-3 login-form" ng-submit="vm.login()">
         <input type="text"
                ng-model="vm.oUser.sLogin"
                required
@@ -10,9 +10,13 @@
                required
                class="form-control"
                placeholder="Password"><br>
-        <button class="btn btn-info right" type="submit">Submit</button><br>
-        <div class="label label-danger" ng-if="vm.bLoginError">
-            Incorrect Login or Password
+
+        <div class="row">
+            <div class="label label-danger col-md-6 fail-logim-message" ng-show="vm.bLoginError">
+                Incorrect Login or Password
+            </div>
+            <button class="btn btn-info col-md-4 login-button" type="submit">Submit</button><br>
         </div>
+
     </form>
 </div>

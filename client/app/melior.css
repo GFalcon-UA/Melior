@@ -1,4 +1,17 @@
-.loggin-form{
-    width: 50%;
+.login-form{
     margin-top: 20%;
+    background-color: #a7a7a7;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.fail-logim-message{
+    font-size: 14px;
+    float: left;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.login-button{
+    float: right;
 }
