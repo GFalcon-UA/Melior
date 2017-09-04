@@ -11,6 +11,10 @@
     app.use('/auth', require('./api/auth'));
     app.use('/logout', require('./api/auth/controller').exit);
     app.use('/api', require('./api/employee'));
+    app.use('/get-client-config', function (req, res) {
+      var result = app.get('localConfig');
+      res.status(200).send((result && result.env && result.env['clientConfig']) ? result.env['clientConfig'] : {});
+    });
 
     // All undefined asset or api routes should return a 404
     app.route('/:url(api|db-service|client|bower_components|node_modules)/*')

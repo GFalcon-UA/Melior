@@ -4,6 +4,7 @@
   angular.module('Melior').service('DataService', ['$http', function ($http) {
 
     this.findAll = findAll;
+    this.findByText = findByText;
     this.save = save;
     this.sortedObjectsArrayByField = sortedObjectsArrayByField;
     this.updateItem = updateItem;
@@ -19,6 +20,12 @@
       return $http.get('/api/find-all').then(function (res) {
         return res.data;
       });
+    }
+
+    function findByText(str){
+      return $http.get('/api/find-by/' + str).then(function (res) {
+        return res.data;
+      })
     }
 
     function sortedObjectsArrayByField(array, config){
@@ -38,7 +45,6 @@
     }
 
     function updateItem(obj) {
-      console.log(angular.toJson(obj));
       return $http.put('api/update/' + obj['_id'], obj).then(function (res) {
         return res.data;
       })

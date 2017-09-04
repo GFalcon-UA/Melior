@@ -68,3 +68,4 @@ docker-compose.yml
 
 # IDE
 /.idea/
+*.test.js

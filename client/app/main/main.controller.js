@@ -2,41 +2,49 @@
   'use strict';
 
   angular.module('Melior')
-    .controller('MainController', ['auth', 'DataService', function (auth, DataService) {
+    .controller('MainController', ['auth', 'DataService', '$rootScope', '$interval', function (auth, DataService, $rootScope, $interval) {
 
       var vm = this;
 
-      vm.oEmployee = {};
+      var nFilterDelay = 500;
+
       vm.aList = [];
-      vm.oSorting = {};
+      vm.oEmployee = {};
+      vm.oFilter = {
+        sValue: '',
+        sOldValue: ''
+      };
+
+      vm.oSorting = {
+        sByField: '',
+        bDescending: {
+          sFirstName: true,
+          sLastName: true,
+          sPosition: true
+        }
+      };
       vm.logout = auth.clear;
       vm.init = init;
       vm.save = save;
       vm.select = select;
       vm.sort = sort;
       vm.remove = remove;
-      vm.setFilter = setFilter;
+      vm.startFilterListener = startFilterListener;
       vm.startWatcher = startWatcher;
 
       init();
 
       function init() {
-        vm.oSorting = {
-          sByField: '',
-          bDescending: {
-            sFirstName: true,
-            sLastName: true,
-            sPosition: true
-          }
-        };
         clearFilterData();
-        DataService.findAll().then(function (res) {
-          vm.aList = angular.copy(res);
-        });
+        findAll();
+        nFilterDelay = ($rootScope.oMeliorConfig &&
+          $rootScope.oMeliorConfig.hasOwnProperty('filterDelay') &&
+          nFilterDelay < $rootScope.oMeliorConfig['filterDelay']) ?
+          $rootScope.oMeliorConfig['filterDelay'] : nFilterDelay;
       }
 
       function save(oItem) {
-        if(oItem.hasOwnProperty('_id')){
+        if (oItem.hasOwnProperty('_id')) {
           DataService.updateItem(oItem).then(function (res) {
             var updatedItems = vm.aList.filter(function (el) {
               return el['_id'] === oItem['_id'];
@@ -63,17 +71,13 @@
         vm.oEmployee = angular.copy(oItem);
       }
 
-      function setFilter(oItem) {
-
-      }
-
       function sort(sByField) {
         vm.oSorting.sByField = sByField;
         vm.aList = angular.copy(DataService.sortedObjectsArrayByField(vm.aList, vm.oSorting));
       }
 
       function startWatcher(oItem) {
-        if(!oItem.sFirstName && !oItem.sLastName && !oItem.sPosition){
+        if (!oItem.sFirstName && !oItem.sLastName && !oItem.sPosition) {
           clearFilterData()
         }
       }
@@ -84,6 +88,59 @@
           sLastName: '',
           sPosition: ''
         };
+      }
+
+      var stopFilterListener;
+
+      function startFilterListener() {
+
+        if (angular.isDefined(stopFilterListener)) {
+          stopListener();
+          console.log('restart filter listener');
+        } else {
+          console.log('start filter listener');
+        }
+
+        vm.oFilter.sOldValue = vm.oFilter.sValue;
+        stopFilterListener = $interval(function () {
+          applyFilter();
+        }, nFilterDelay);
+
+      }
+
+      function stopListener() {
+        if (angular.isDefined(stopFilterListener)) {
+          $interval.cancel(stopFilterListener);
+          stopFilterListener = undefined;
+        }
+      }
+
+      function applyFilter() {
+        stopListener();
+
+        if (vm.oFilter.sValue !== vm.oFilter.sOldValue) {
+          startFilterListener();
+          return;
+        }
+
+        console.log('stop filter listener');
+        if (!vm.oFilter.sValue) {
+          findAll();
+        } else {
+          findByText(vm.oFilter.sValue)
+        }
+      }
+
+      function findAll() {
+        DataService.findAll().then(function (res) {
+          vm.aList = angular.copy(res);
+        });
+      }
+
+      function findByText(str) {
+        DataService.findByText(str).then(function (res) {
+          vm.aList = angular.copy(res);
+        })
       }
 
     }])

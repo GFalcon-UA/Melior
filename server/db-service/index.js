@@ -61,6 +61,44 @@
     });
   };
 
+  module.exports.getBy = function(req, res) {
+    var pattern = new RegExp(req.params.text);
+    var allArray = [];
+    var result = [];
+
+    db.collection(OBJECTS_COLLECTION).find({}).toArray(function(err, docs) {
+      if (err) {
+        handleError(res, err.message, "Failed to get object.");
+      } else {
+        var aFilteredFirstName = docs.filter(function (item) {
+          return item.sFirstName.match(pattern);
+        });
+        var aFilteredLastName = docs.filter(function (item) {
+          return item.sLastName.match(pattern);
+        });
+        var aFilteredPosition = docs.filter(function (item) {
+          return item.sPosition.match(pattern);
+        });
+
+        result = aFilteredFirstName;
+        aFilteredLastName.forEach(function (item) {
+          if(result.indexOf(item) < 0){
+            result.push(item);
+          }
+        });
+        aFilteredPosition.forEach(function (item) {
+          if(result.indexOf(item) < 0){
+            result.push(item);
+          }
+        });
+
+
+        res.status(200).json(result);
+      }
+    });
+
+  };
+
   module.exports.updateById = function(req, res) {
     var updateDoc = req.body;
     delete updateDoc._id;

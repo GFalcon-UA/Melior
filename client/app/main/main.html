@@ -23,7 +23,10 @@
         <button type="submit">{{vm.oEmployee['_id'] ? 'Updade' : 'Save'}}</button>
     </form>
 </div>
-<button ng-click="vm.setFilter(vm.oEmployee)">Filter</button>
+
+<div>
+    <input type="text" placeholder="Filter" ng-model="vm.oFilter.sValue" ng-change="vm.startFilterListener()">
+</div>
 
 <table>
     <thead>

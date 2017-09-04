@@ -2,6 +2,9 @@
   "env": {
     "port": 8080,
     "mongoUrl": "mongodb://127.0.0.1:27017",
+    "clientConfig": {
+      "filterDelay": 2000
+    },
     "accounts": [
       {
         "login": "admin",
