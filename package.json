@@ -23,7 +23,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "node test.js"
+    "test": "node test.js",
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",
