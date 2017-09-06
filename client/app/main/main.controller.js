@@ -24,6 +24,7 @@
         }
       };
       vm.logout = auth.clear;
+      vm.bNothingSelected = false;
       vm.init = init;
       vm.save = save;
       vm.select = select;
@@ -31,6 +32,7 @@
       vm.remove = remove;
       vm.startFilterListener = startFilterListener;
       vm.startWatcher = startWatcher;
+      vm.selectToDelete = selectToDelete;
 
       init();
 
@@ -61,10 +63,22 @@
         }
       }
 
+      function selectToDelete() {
+        vm.bNothingSelected = false;
+      }
+
       function remove() {
-        DataService.remove(vm.aList).then(function (res) {
-          vm.aList = angular.copy(res);
-        })
+        var aListToDelete = vm.aList.filter(function(oItem){
+          return oItem.bRemove;
+        });
+        if(aListToDelete.length > 0){
+          vm.bNothingSelected = false;
+          DataService.remove(aListToDelete).then(function (res) {
+            vm.aList = angular.copy(res);
+          })
+        } else {
+          vm.bNothingSelected = true;
+        }
       }
 
       function select(oItem) {

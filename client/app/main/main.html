@@ -62,7 +62,10 @@
         </thead>
         <tbody>
         <tr ng-repeat="oItem in vm.aList" ng-if="vm.aList.length > 0">
-            <td class="max-width-10"><input type="checkbox" ng-checked="oItem.bRemove" ng-model="oItem.bRemove"></td>
+            <td class="max-width-10"><input type="checkbox"
+                                            ng-checked="oItem.bRemove"
+                                            ng-change="vm.selectToDelete()"
+                                            ng-model="oItem.bRemove"></td>
             <td ng-click="vm.select(oItem)" class="pointer max-width-30">{{oItem.sFirstName}}</td>
             <td ng-click="vm.select(oItem)" class="pointer max-width-30">{{oItem.sLastName}}</td>
             <td ng-click="vm.select(oItem)" class="pointer max-width-30">{{oItem.sPosition}}</td>
@@ -74,7 +77,12 @@
         </tr>
         </tbody>
     </table>
-    <button class="btn bg-danger col-md-3 col-md-offset-1" ng-click="vm.remove(vm.oEmployee)">Delete</button>
+    <div class="row">
+        <button class="btn bg-danger col-md-3 col-md-offset-1"
+                ng-disabled="{{vm.aList.length === 0}}"
+                ng-click="vm.remove(vm.oEmployee)">Delete</button>
+        <label class="label-warning col-md-6" ng-show="vm.bNothingSelected">The first You must select something to delete</label>
+    </div>
 </div>
 
 

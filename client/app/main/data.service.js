@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('Melior').service('DataService', ['$http', function ($http) {
+  angular.module('Melior').service('DataService', ['$http', '$q', function ($http, $q) {
 
     this.findAll = findAll;
     this.findByText = findByText;
@@ -11,21 +11,33 @@
     this.remove = remove;
 
     function save(obj){
-      return $http.post('/api/save', obj).then(function (res) {
-        return res.data;
-      })
+      var def = $q.defer();
+      $http.post('/api/save', obj).then(function (res) {
+        def.resolve(res.data);
+      }, function (err) {
+        def.reject(err);
+      });
+      return def.promise;
     }
 
     function findAll() {
-      return $http.get('/api/find-all').then(function (res) {
-        return res.data;
+      var def = $q.defer();
+      $http.get('/api/find-all').then(function (res) {
+        def.resolve(res.data);
+      }, function (err) {
+        def.reject(err);
       });
+      return def.promise;
     }
 
     function findByText(str){
-      return $http.get('/api/find-by/' + str).then(function (res) {
-        return res.data;
-      })
+      var def = $q.defer();
+      $http.get('/api/find-by/' + str).then(function (res) {
+        def.resolve(res.data);
+      }, function (err) {
+        def.reject(err);
+      });
+      return def.promise;
     }
 
     function sortedObjectsArrayByField(array, config){
@@ -45,17 +57,19 @@
     }
 
     function updateItem(obj) {
-      return $http.put('api/update/' + obj['_id'], obj).then(function (res) {
-        return res.data;
-      })
+      var def = $q.defer();
+      $http.put('api/update/' + obj['_id'], obj).then(function (res) {
+        def.resolve(res.data);
+      }, function (err) {
+        def.reject(err);
+      });
+      return def.promise;
     }
 
     function remove(array) {
-      if(!angular.isArray(array) || array.length === 0) return;
+      var def = $q.defer();
       var aRemoveList = [];
-      array.filter(function (oItem) {
-        return oItem.bRemove;
-      }).forEach(function (oItem) {
+      array.forEach(function (oItem) {
         aRemoveList.push(oItem._id);
       });
       var params = {
@@ -64,13 +78,18 @@
         })
       };
       if(aRemoveList.length > 0){
-        return $http.delete('/api/delete-by-list', {params: params}).then(function (res) {
-          return array.filter(function (oItem) {
+        $http.delete('/api/delete-by-list', {params: params}).then(function (res) {
+          var aCleaned =  array.filter(function (oItem) {
             return !oItem.bRemove;
-          })
+          });
+          def.resolve(aCleaned)
+        }, function (err) {
+          def.reject(err);
         })
+      } else {
+        def.reject('Nothing to delete');
       }
-
+      return def.promise;
     }
 
   }])
