@@ -77,9 +77,8 @@
         </tr>
         </tbody>
     </table>
-    <div class="row">
+    <div class="row" ng-if="vm.aList.length > 0">
         <button class="btn bg-danger col-md-3 col-md-offset-1"
-                ng-disabled="{{vm.aList.length === 0}}"
                 ng-click="vm.remove(vm.oEmployee)">Delete</button>
         <label class="label-warning col-md-6" ng-show="vm.bNothingSelected">The first You must select something to delete</label>
     </div>
