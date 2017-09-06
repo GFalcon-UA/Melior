@@ -37,7 +37,7 @@
       init();
 
       function init() {
-        clearFilterData();
+        clearUpdateForm();
         findAll();
         nFilterDelay = ($rootScope.oMeliorConfig &&
           $rootScope.oMeliorConfig.hasOwnProperty('filterDelay') &&
@@ -53,12 +53,12 @@
             });
             var index = vm.aList.indexOf(updatedItems[0]);
             vm.aList[index] = angular.copy(res);
-            clearFilterData();
+            clearUpdateForm();
           })
         } else {
           DataService.save(oItem).then(function (res) {
             vm.aList.push(res);
-            clearFilterData()
+            clearUpdateForm()
           })
         }
       }
@@ -74,7 +74,7 @@
         if(aListToDelete.length > 0){
           vm.bNothingSelected = false;
           DataService.remove(aListToDelete).then(function (res) {
-            vm.aList = angular.copy(res);
+            fillTable(res)
           })
         } else {
           vm.bNothingSelected = true;
@@ -87,16 +87,16 @@
 
       function sort(sByField) {
         vm.oSorting.sByField = sByField;
-        vm.aList = angular.copy(DataService.sortedObjectsArrayByField(vm.aList, vm.oSorting));
+        fillTable(DataService.sortedObjectsArrayByField(vm.aList, vm.oSorting));
       }
 
       function startWatcher(oItem) {
         if (!oItem.sFirstName && !oItem.sLastName && !oItem.sPosition) {
-          clearFilterData()
+          clearUpdateForm()
         }
       }
 
-      function clearFilterData() {
+      function clearUpdateForm() {
         vm.oEmployee = {
           sFirstName: '',
           sLastName: '',
@@ -147,14 +147,19 @@
 
       function findAll() {
         DataService.findAll().then(function (res) {
-          vm.aList = angular.copy(res);
+          fillTable(res);
         });
       }
 
       function findByText(str) {
         DataService.findByText(str).then(function (res) {
-          vm.aList = angular.copy(res);
+          fillTable(res);
         })
+      }
+
+      function fillTable(aSource) {
+        vm.aList = angular.copy(aSource);
+        clearUpdateForm();
       }
 
     }])
